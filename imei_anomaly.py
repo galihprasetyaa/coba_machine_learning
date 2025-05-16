@@ -16,6 +16,17 @@ if uploaded_file:
     st.dataframe(df.head())
 
     # --- Anomali IMEI ---
+    # Hitung jumlah kemunculan IMEI
+imei_counts = df["IMEI"].dropna().value_counts()
+
+# Tandai IMEI duplikat
+def mark_duplicate(imei):
+    if pd.isna(imei):
+        return "Unknown"
+    return "Duplicate" if imei_counts.get(imei, 0) > 1 else "Unique"
+
+df["IMEI_Duplicate"] = df["IMEI"].apply(mark_duplicate)
+
     imei_counts = df["IMEI"].value_counts()
     df["IMEI_Duplicate"] = df["IMEI"].map(lambda x: "Duplicate" if imei_counts[x] > 1 else "Unique")
 
