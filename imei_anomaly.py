@@ -20,12 +20,12 @@ if uploaded_file:
 imei_counts = df["IMEI"].dropna().value_counts()
 
 # Tandai IMEI duplikat
-def mark_duplicate(imei):
+    def mark_duplicate(imei):
     if pd.isna(imei):
         return "Unknown"
     return "Duplicate" if imei_counts.get(imei, 0) > 1 else "Unique"
 
-df["IMEI_Duplicate"] = df["IMEI"].apply(mark_duplicate)
+    df["IMEI_Duplicate"] = df["IMEI"].apply(mark_duplicate)
 
 
     # --- Anomali waktu ---
