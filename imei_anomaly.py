@@ -16,7 +16,7 @@ if uploaded_file:
     st.dataframe(df.head())
 
     # --- Anomali IMEI ---
-    # Hitung jumlah kemunculan IMEI
+# Hitung jumlah kemunculan IMEI
 imei_counts = df["IMEI"].dropna().value_counts()
 
 # Tandai IMEI duplikat
@@ -27,19 +27,6 @@ def mark_duplicate(imei):
 
 df["IMEI_Duplicate"] = df["IMEI"].apply(mark_duplicate)
 
-    imei_counts = df["IMEI"].value_counts()
-    df["IMEI_Duplicate"] = df["IMEI"].map(lambda x: "Duplicate" if imei_counts[x] > 1 else "Unique")
-
-    def valid_imei(imei):
-        try:
-            return len(str(imei)) == 15 and str(imei).isdigit()
-        except:
-            return False
-
-    df["IMEI_Valid"] = df["IMEI"].apply(valid_imei).map({True: "Valid", False: "Invalid"})
-
-    imei_brand = df.groupby("IMEI")["Product Brand"].nunique()
-    df["IMEI_Brand_Inconsistent"] = df["IMEI"].map(lambda x: "Inconsistent" if imei_brand[x] > 1 else "Consistent")
 
     # --- Anomali waktu ---
     df["AssignHour"] = pd.to_datetime(df["AssignTime"], errors='coerce').dt.hour.fillna(-1)
